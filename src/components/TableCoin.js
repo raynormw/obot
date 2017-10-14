@@ -10,6 +10,14 @@ const columns = [{
   dataIndex: 'last_price',
   key: 'last_price',
 }, {
+  title: 'Last Sell',
+  dataIndex: 'last_sell',
+  key: 'last_sell',
+}, {
+  title: 'Last Buy',
+  dataIndex: 'last_buy',
+  key: 'last_buy',
+}, {
   title: 'Volume',
   dataIndex: 'volume',
   key: 'volume',
@@ -23,32 +31,28 @@ const columns = [{
   key: 'high_price',
 }];
 
-export default class TableCoin extends React.Component {
-  constructor(props) {
-    super(props);
+export const TableCoin = (props) => {
+  let coinData = [{
+    key: '1',
+    market: 'BTC/IDR',
+    last_price: props.bitcoinData.last || 'Fetching..',
+    last_sell: props.bitcoinData.last,
+    last_buy: props.bitcoinData.buy,
+    volume: props.bitcoinData.vol_idr,
+    low_price: props.bitcoinData.low,
+    high_price: props.bitcoinData.high
+  }, {
+    key: '2',
+    market: 'ETH/IDR',
+    last_price: props.etherumData.last || 'Fetching..',
+    last_sell: props.bitcoinData.last,
+    last_buy: props.bitcoinData.buy,
+    volume: props.etherumData.vol_idr,
+    low_price: props.etherumData.low,
+    high_price: props.etherumData.high
+  }];
 
-    this.state = {
-      coinData : [{
-        key: '1',
-        market: 'BTC/IDR',
-        last_price: '74.250.600',
-        volume: '43,2bn IDR',
-        low_price: '72.227.500',
-        high_price: '74.499.000'
-      }, {
-        key: '2',
-        market: 'ETH/IDR',
-        last_price: '4.434.000',
-        volume: '4,2bn IDR',
-        low_price: '4.323.500',
-        high_price: '4.548.000'
-      }]
-    }
-  }
-  
-  render() {
-    return (
-      <Table dataSource={this.state.coinData} columns={columns} />
-    );
-  }
+  return (
+    <Table dataSource={coinData} columns={columns} />
+  );
 }

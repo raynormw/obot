@@ -5,8 +5,9 @@ import {
   Col,
 } from 'antd';
 
-import { tick } from '../actions/timeAction.js'
-import TableCoin from './TableCoin.js';
+import { fetchBitcoin } from '../actions/bitcoinAction.js';
+import { fetchEtherum } from '../actions/etherumAction.js';
+import {TableCoin} from './TableCoin.js';
 import logo from '../logo.svg';
 import './Homepage.css';
 
@@ -29,16 +30,41 @@ const styles = {
 };
 
 class Homepage extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      date: new Date()
+    }
+  }
 
   componentDidMount() {
     this.timerID = setInterval(
-      () => this.props.getDate(),
+      () => this._tick(),
       1000
+    );
+
+    this.timerBitcoin = setInterval(
+      () => this.props.getBitcoinData(),
+      10000
+    );
+
+    this.timerEtherum = setInterval(
+      () => this.props.getEtherumData(),
+      10000
     );
   }
 
   componentWillUnmount() {
-    clearInterval(this.timerID);
+    clearInterval(
+      this.timerID,
+      this.timerBitcoin,
+      this.timerEtherum
+    );
+  }
+
+  _tick() {
+    this.setState({date: new Date()})
   }
 
   render() {
@@ -55,12 +81,15 @@ class Homepage extends React.Component {
           <Col span={8}>
             tes
           </Col>
-          <Col span={14}>
-            <TableCoin />
+          <Col span={15}>
+            <TableCoin
+              bitcoinData = {this.props.bitcoinData}
+              etherumData = {this.props.etherumData}
+            />
           </Col>
         </Row>
         <div style={styles.timeContainer}>
-          {this.props.date.toLocaleTimeString()}
+          {this.state.date.toLocaleTimeString()}
         </div>
       </div>
     );
@@ -69,15 +98,15 @@ class Homepage extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    date: state.getDate.date,
-    //fetching: state.passwordList.fetching,
+    bitcoinData: state.bitcoin.data,
+    etherumData: state.etherum.data,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getDate: () => dispatch(tick()),
-    //deletePassword: (id) => dispatch(deletePassword(id))
+    getBitcoinData: () => dispatch(fetchBitcoin()),
+    getEtherumData: () => dispatch(fetchEtherum()),
   }
 }
 

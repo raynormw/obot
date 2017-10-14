@@ -1,7 +1,9 @@
 import { combineReducers } from 'redux';
 
-import timeReducer from './timeReducer';
+import bitcoinReducer from './bitcoinReducer';
+import etherumReducer from './etherumReducer';
 
 export default combineReducers({
-  getDate: timeReducer
+  bitcoin: bitcoinReducer,
+  etherum: etherumReducer,
 });
