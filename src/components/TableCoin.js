@@ -43,7 +43,13 @@ let btcLastPrice,
     ethLastBuy,
     ethVolume,
     ethLowPrice,
-    ethHighPrice;
+    ethHighPrice,
+    ltcLastPrice,
+    ltcLastSell,
+    ltcLastBuy,
+    ltcVolume,
+    ltcLowPrice,
+    ltcHighPrice;
 
 export const TableCoin = (props) => {
   if(props.bitcoinStatus === 'fetching success') {
@@ -64,11 +70,20 @@ export const TableCoin = (props) => {
     ethHighPrice = dotSeparator(props.etherumData.high);
   }
 
+  if(props.litecoinStatus === 'fetching success') {
+    ltcLastPrice = dotSeparator(props.litecoinData.last);
+    ltcLastSell = dotSeparator(props.litecoinData.sell);
+    ltcLastBuy = dotSeparator(props.litecoinData.buy);
+    ltcVolume = dotSeparator(props.litecoinData.vol_idr);
+    ltcLowPrice = dotSeparator(props.litecoinData.low);
+    ltcHighPrice = dotSeparator(props.litecoinData.high);
+  }
+
   let coinData = [{
     key: '1',
     market: 'BTC/IDR',
     last_price: btcLastPrice || 'Fetching..',
-    last_sell: btcLastSell || 'please Wait..',
+    last_sell: btcLastSell || 'please wait..',
     last_buy: btcLastBuy,
     volume: btcVolume,
     low_price: btcLowPrice,
@@ -82,6 +97,15 @@ export const TableCoin = (props) => {
     volume: ethVolume,
     low_price: ethLowPrice,
     high_price: ethHighPrice
+  }, {
+    key: '3',
+    market: 'LTC/IDR',
+    last_price: ltcLastPrice || 'Fetching..',
+    last_sell: ltcLastSell || 'please wait..',
+    last_buy: ltcLastBuy,
+    volume: ltcVolume,
+    low_price: ltcLowPrice,
+    high_price: ltcHighPrice
   }];
 
   return (

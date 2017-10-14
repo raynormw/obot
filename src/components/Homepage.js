@@ -7,6 +7,7 @@ import {
 
 import { fetchBitcoin } from '../actions/bitcoinAction.js';
 import { fetchEtherum } from '../actions/etherumAction.js';
+import { fetchLitecoin } from '../actions/litecoinAction.js';
 import {TableCoin} from './TableCoin.js';
 import logo from '../logo.svg';
 import './Homepage.css';
@@ -46,12 +47,17 @@ class Homepage extends React.Component {
 
     this.timerBitcoin = setInterval(
       () => this.props.getBitcoinData(),
-      10000
+      5000
     );
 
     this.timerEtherum = setInterval(
       () => this.props.getEtherumData(),
-      10000
+      5000
+    );
+
+    this.timerLitecoin = setInterval(
+      () => this.props.getLitecoinData(),
+      5000
     );
   }
 
@@ -59,7 +65,8 @@ class Homepage extends React.Component {
     clearInterval(
       this.timerID,
       this.timerBitcoin,
-      this.timerEtherum
+      this.timerEtherum,
+      this.timerLitecoin,
     );
   }
 
@@ -87,6 +94,8 @@ class Homepage extends React.Component {
               bitcoinStatus = {this.props.bitcoinStatus}
               etherumData = {this.props.etherumData}
               etherumStatus = {this.props.etherumStatus}
+              litecoinData = {this.props.litecoinData}
+              litecoinStatus = {this.props.litecoinStatus}
             />
           </Col>
         </Row>
@@ -104,6 +113,8 @@ const mapStateToProps = (state) => {
     bitcoinStatus: state.bitcoin.status,
     etherumData: state.etherum.data,
     etherumStatus: state.etherum.status,
+    litecoinData: state.litecoin.data,
+    litecoinStatus: state.litecoin.status,
   }
 }
 
@@ -111,6 +122,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getBitcoinData: () => dispatch(fetchBitcoin()),
     getEtherumData: () => dispatch(fetchEtherum()),
+    getLitecoinData: () => dispatch(fetchLitecoin()),
   }
 }
 
