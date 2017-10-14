@@ -8,7 +8,8 @@ import {
 import { fetchBitcoin } from '../actions/bitcoinAction.js';
 import { fetchEtherum } from '../actions/etherumAction.js';
 import { fetchLitecoin } from '../actions/litecoinAction.js';
-import {TableCoin} from './TableCoin.js';
+import { fetchWaves } from '../actions/wavesAction.js';
+import { TableCoin } from './TableCoin.js';
 import logo from '../logo.svg';
 import './Homepage.css';
 
@@ -59,6 +60,11 @@ class Homepage extends React.Component {
       () => this.props.getLitecoinData(),
       5000
     );
+
+    this.timerWaves = setInterval(
+      () => this.props.getWavesData(),
+      5000
+    );
   }
 
   componentWillUnmount() {
@@ -67,6 +73,7 @@ class Homepage extends React.Component {
       this.timerBitcoin,
       this.timerEtherum,
       this.timerLitecoin,
+      this.timerWaves,
     );
   }
 
@@ -96,6 +103,8 @@ class Homepage extends React.Component {
               etherumStatus = {this.props.etherumStatus}
               litecoinData = {this.props.litecoinData}
               litecoinStatus = {this.props.litecoinStatus}
+              wavesData = {this.props.wavesData}
+              wavesStatus = {this.props.wavesStatus}
             />
           </Col>
         </Row>
@@ -115,6 +124,8 @@ const mapStateToProps = (state) => {
     etherumStatus: state.etherum.status,
     litecoinData: state.litecoin.data,
     litecoinStatus: state.litecoin.status,
+    wavesData: state.waves.data,
+    wavesStatus: state.waves.status,
   }
 }
 
@@ -123,6 +134,7 @@ const mapDispatchToProps = (dispatch) => {
     getBitcoinData: () => dispatch(fetchBitcoin()),
     getEtherumData: () => dispatch(fetchEtherum()),
     getLitecoinData: () => dispatch(fetchLitecoin()),
+    getWavesData: () => dispatch(fetchWaves()),
   }
 }
 

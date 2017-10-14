@@ -49,7 +49,13 @@ let btcLastPrice,
     ltcLastBuy,
     ltcVolume,
     ltcLowPrice,
-    ltcHighPrice;
+    ltcHighPrice,
+    wavesLastPrice,
+    wavesLastSell,
+    wavesLastBuy,
+    wavesVolume,
+    wavesLowPrice,
+    wavesHighPrice;
 
 export const TableCoin = (props) => {
   if(props.bitcoinStatus === 'fetching success') {
@@ -79,6 +85,15 @@ export const TableCoin = (props) => {
     ltcHighPrice = dotSeparator(props.litecoinData.high);
   }
 
+  if(props.wavesStatus === 'fetching success') {
+    wavesLastPrice = dotSeparator(props.wavesData.last);
+    wavesLastSell = dotSeparator(props.wavesData.sell);
+    wavesLastBuy = dotSeparator(props.wavesData.buy);
+    wavesVolume = dotSeparator(props.wavesData.vol_idr);
+    wavesLowPrice = dotSeparator(props.wavesData.low);
+    wavesHighPrice = dotSeparator(props.wavesData.high);
+  }
+
   let coinData = [{
     key: '1',
     market: 'BTC/IDR',
@@ -106,6 +121,15 @@ export const TableCoin = (props) => {
     volume: ltcVolume,
     low_price: ltcLowPrice,
     high_price: ltcHighPrice
+  }, {
+    key: '4',
+    market: 'WAVES/IDR',
+    last_price: wavesLastPrice || 'Fetching..',
+    last_sell: wavesLastSell || 'please wait..',
+    last_buy: wavesLastBuy,
+    volume: wavesVolume,
+    low_price: wavesLowPrice,
+    high_price: wavesHighPrice
   }];
 
   return (
