@@ -84,7 +84,9 @@ class Homepage extends React.Component {
           <Col span={15}>
             <TableCoin
               bitcoinData = {this.props.bitcoinData}
+              bitcoinStatus = {this.props.bitcoinStatus}
               etherumData = {this.props.etherumData}
+              etherumStatus = {this.props.etherumStatus}
             />
           </Col>
         </Row>
@@ -99,7 +101,9 @@ class Homepage extends React.Component {
 const mapStateToProps = (state) => {
   return {
     bitcoinData: state.bitcoin.data,
+    bitcoinStatus: state.bitcoin.status,
     etherumData: state.etherum.data,
+    etherumStatus: state.etherum.status,
   }
 }
 
