@@ -1,12 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import {
   Row,
   Col,
 } from 'antd';
 
+import { tick } from '../actions/timeAction.js'
+import TableCoin from './TableCoin.js';
 import logo from '../logo.svg';
 import './Homepage.css';
-import TableCoin from './TableCoin.js';
 
 const styles = {
   rowContainer: {
@@ -24,30 +26,19 @@ const styles = {
     right: '0px',
     marginBottom: '0px'
   }
-}
+};
 
 class Homepage extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {date: new Date()};
-  }
 
   componentDidMount() {
     this.timerID = setInterval(
-      () => this.tick(),
+      () => this.props.getDate(),
       1000
     );
   }
 
   componentWillUnmount() {
     clearInterval(this.timerID);
-  }
-
-  tick() {
-    this.setState({
-      date: new Date()
-    });
   }
 
   render() {
@@ -69,11 +60,25 @@ class Homepage extends React.Component {
           </Col>
         </Row>
         <div style={styles.timeContainer}>
-          {this.state.date.toLocaleTimeString()}
+          {this.props.date.toLocaleTimeString()}
         </div>
       </div>
     );
   }
 }
 
-export default Homepage;
+const mapStateToProps = (state) => {
+  return {
+    date: state.getDate.date,
+    //fetching: state.passwordList.fetching,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getDate: () => dispatch(tick()),
+    //deletePassword: (id) => dispatch(deletePassword(id))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Homepage);

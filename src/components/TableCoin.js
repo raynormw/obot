@@ -45,6 +45,7 @@ export default class TableCoin extends React.Component {
       }]
     }
   }
+  
   render() {
     return (
       <Table dataSource={this.state.coinData} columns={columns} />
