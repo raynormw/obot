@@ -11,7 +11,18 @@ import TableCoin from './TableCoin.js';
 const styles = {
   rowContainer: {
     padding: '2.5em',
-    fontSize: '1.5em'
+    fontSize: '1.5em',
+    margin: 0
+  },
+  timeContainer: {
+    textAlign: 'right',
+    paddingRight: '3em',
+    position: 'fixed',
+    height: '50px',
+    bottom: '0px',
+    left: '0px',
+    right: '0px',
+    marginBottom: '0px'
   }
 }
 
@@ -25,7 +36,7 @@ class Homepage extends React.Component {
   componentDidMount() {
     this.timerID = setInterval(
       () => this.tick(),
-      3000
+      1000
     );
   }
 
@@ -40,7 +51,6 @@ class Homepage extends React.Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <div className="Homepage">
         <header className="Homepage-header">
@@ -50,14 +60,17 @@ class Homepage extends React.Component {
         <p className="Homepage-intro">
           Buy low, sell high!! always setting the base..
         </p>
-        <Row gutter={40} style={styles.rowContainer}>
-          <Col span={12}>
-            tes {this.state.date.toLocaleTimeString()}
+        <Row type="flex" justify="space-between" style={styles.rowContainer}>
+          <Col span={8}>
+            tes
           </Col>
-          <Col span={12}>
+          <Col span={14}>
             <TableCoin />
           </Col>
         </Row>
+        <div style={styles.timeContainer}>
+          {this.state.date.toLocaleTimeString()}
+        </div>
       </div>
     );
   }
