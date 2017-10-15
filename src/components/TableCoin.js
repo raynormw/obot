@@ -55,7 +55,19 @@ let btcLastPrice,
     wavesLastBuy,
     wavesVolume,
     wavesLowPrice,
-    wavesHighPrice;
+    wavesHighPrice,
+    xrpLastPrice,
+    xrpLastSell,
+    xrpLastBuy,
+    xrpVolume,
+    xrpLowPrice,
+    xrpHighPrice,
+    zonkLastPrice,
+    zonkLastSell,
+    zonkLastBuy,
+    zonkVolume,
+    zonkLowPrice,
+    zonkHighPrice;
 
 export const TableCoin = (props) => {
   if(props.bitcoinStatus === 'fetching success') {
@@ -94,6 +106,24 @@ export const TableCoin = (props) => {
     wavesHighPrice = dotSeparator(props.wavesData.high);
   }
 
+  if(props.rippleStatus === 'fetching success') {
+    xrpLastPrice = dotSeparator(props.rippleData.last);
+    xrpLastSell = dotSeparator(props.rippleData.sell);
+    xrpLastBuy = dotSeparator(props.rippleData.buy);
+    xrpVolume = dotSeparator(props.rippleData.vol_idr);
+    xrpLowPrice = dotSeparator(props.rippleData.low);
+    xrpHighPrice = dotSeparator(props.rippleData.high);
+  }
+
+  if(props.zonkStatus === 'fetching success') {
+    zonkLastPrice = dotSeparator(props.zonkData.last);
+    zonkLastSell = dotSeparator(props.zonkData.sell);
+    zonkLastBuy = dotSeparator(props.zonkData.buy);
+    zonkVolume = dotSeparator(props.zonkData.vol_idr);
+    zonkLowPrice = dotSeparator(props.zonkData.low);
+    zonkHighPrice = dotSeparator(props.zonkData.high);
+  }
+
   let coinData = [{
     key: '1',
     market: 'BTC/IDR',
@@ -130,6 +160,24 @@ export const TableCoin = (props) => {
     volume: wavesVolume,
     low_price: wavesLowPrice,
     high_price: wavesHighPrice
+  }, {
+    key: '5',
+    market: 'XRP/IDR',
+    last_price: xrpLastPrice || 'Fetching..',
+    last_sell: xrpLastSell || 'please wait..',
+    last_buy: xrpLastBuy,
+    volume: xrpVolume,
+    low_price: xrpLowPrice,
+    high_price: xrpHighPrice
+  }, {
+    key: '6',
+    market: 'XZC/IDR',
+    last_price: zonkLastPrice || 'Fetching..',
+    last_sell: zonkLastSell || 'please wait..',
+    last_buy: zonkLastBuy,
+    volume: zonkVolume,
+    low_price: zonkLowPrice,
+    high_price: zonkHighPrice
   }];
 
   return (

@@ -9,6 +9,8 @@ import { fetchBitcoin } from '../actions/bitcoinAction.js';
 import { fetchEtherum } from '../actions/etherumAction.js';
 import { fetchLitecoin } from '../actions/litecoinAction.js';
 import { fetchWaves } from '../actions/wavesAction.js';
+import { fetchRipple } from '../actions/rippleAction.js';
+import { fetchZonk } from '../actions/zonkAction.js';
 import { resetBase } from '../actions/baseAction.js';
 import { TableCoin } from './TableCoin.js';
 import WrappedFormBase from './FormBase.js';
@@ -75,6 +77,16 @@ class Homepage extends React.Component {
       5000
     );
 
+    this.timerRipple = setInterval(
+      () => this.props.getRippleData(),
+      5000
+    );
+
+    this.timerZonk = setInterval(
+      () => this.props.getZonkData(),
+      5000
+    );
+
     this.timerNotif = setInterval(
       () => this._checkBase(),
       5000
@@ -89,6 +101,8 @@ class Homepage extends React.Component {
       this.timerEtherum,
       this.timerLitecoin,
       this.timerWaves,
+      this.timerRipple,
+      this.timerZonk,
       this.timerNotif
     );
   }
@@ -141,6 +155,30 @@ class Homepage extends React.Component {
           if(this.props.wavesData.last > this.props.amount) {
             console.log('time to sell');
             this._sendSellSMS(this.props.coin, this.props.amount, this.props.wavesData.last);
+          }
+        }
+      } else if(this.props.coin === 'xrp') {
+        if(this.props.status === 'buy') {
+          if(this.props.rippleData.last < this.props.amount) {
+            console.log('time to buy');
+            this._sendBuySMS(this.props.coin, this.props.amount, this.props.rippleData.last);
+          }
+        } else if(this.props.status === 'sell') {
+          if(this.props.rippleData.last > this.props.amount) {
+            console.log('time to sell');
+            this._sendSellSMS(this.props.coin, this.props.amount, this.props.rippleData.last);
+          }
+        }
+      } else if(this.props.coin === 'xzc') {
+        if(this.props.status === 'buy') {
+          if(this.props.zonkData.last < this.props.amount) {
+            console.log('time to buy');
+            this._sendBuySMS(this.props.coin, this.props.amount, this.props.zonkData.last);
+          }
+        } else if(this.props.status === 'sell') {
+          if(this.props.zonkData.last > this.props.amount) {
+            console.log('time to sell');
+            this._sendSellSMS(this.props.coin, this.props.amount, this.props.zonkData.last);
           }
         }
       }
@@ -200,6 +238,10 @@ class Homepage extends React.Component {
               litecoinStatus = {this.props.litecoinStatus}
               wavesData = {this.props.wavesData}
               wavesStatus = {this.props.wavesStatus}
+              rippleData = {this.props.rippleData}
+              rippleStatus = {this.props.rippleStatus}
+              zonkData = {this.props.zonkData}
+              zonkStatus = {this.props.zonkStatus}
             />
           </Col>
         </Row>
@@ -221,6 +263,10 @@ const mapStateToProps = (state) => {
     litecoinStatus: state.litecoin.status,
     wavesData: state.waves.data,
     wavesStatus: state.waves.status,
+    rippleData: state.ripple.data,
+    rippleStatus: state.ripple.status,
+    zonkData: state.zonk.data,
+    zonkStatus: state.zonk.status,
 
     isBaseActive: state.base.isBaseActive,
     coin: state.base.coin,
@@ -235,6 +281,8 @@ const mapDispatchToProps = (dispatch) => {
     getEtherumData: () => dispatch(fetchEtherum()),
     getLitecoinData: () => dispatch(fetchLitecoin()),
     getWavesData: () => dispatch(fetchWaves()),
+    getRippleData: () => dispatch(fetchRipple()),
+    getZonkData: () => dispatch(fetchZonk()),
     reset: () => dispatch(resetBase()),
   }
 }

@@ -108,6 +108,8 @@ class FormBase extends React.Component {
               <Option value="eth">ETH/IDR</Option>
               <Option value="ltc">LTC/IDR</Option>
               <Option value="waves">WAVES/IDR</Option>
+              <Option value="xrp">XRP/IDR</Option>
+              <Option value="xzc">XZC/IDR</Option>
             </Select>
           )}
         </FormItem>
