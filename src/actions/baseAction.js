@@ -11,6 +11,7 @@ export const buyingBase = (coin, amount) => {
 
 export const sellingBase = (coin, amount) => {
   return dispatch => {
+    dispatch({type: 'ACTIVATED_BASE'})
     dispatch({
       type: 'SELLING_BASE',
       coin: coin,

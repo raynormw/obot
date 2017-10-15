@@ -9,6 +9,7 @@ import { fetchBitcoin } from '../actions/bitcoinAction.js';
 import { fetchEtherum } from '../actions/etherumAction.js';
 import { fetchLitecoin } from '../actions/litecoinAction.js';
 import { fetchWaves } from '../actions/wavesAction.js';
+import { resetBase } from '../actions/baseAction.js';
 import { TableCoin } from './TableCoin.js';
 import WrappedFormBase from './FormBase.js';
 import logo from '../logo.svg';
@@ -103,6 +104,7 @@ class Homepage extends React.Component {
         } else if(this.props.status === 'sell') {
           if(this.props.bitcoinData.last > this.props.amount) {
             console.log('time to sell');
+            this._sendSellSMS(this.props.coin, this.props.amount, this.props.bitcoinData.last);
           }
         }
       } else if(this.props.coin === 'eth') {
@@ -112,15 +114,27 @@ class Homepage extends React.Component {
   }
 
   _sendBuySMS(coin, amount, last) {
-    request('https://platform.clickatell.com/messages/http/send?apiKey=aKvG7PS9RsWtW37jec-SFw==&to=+6281298230631&content=Time+to+buy+'+coin+'+because+your+base+is+'+amount+'+and+the+last+price+is'+last, function (error, response, body) {
+    var self = this;
+    request('https://platform.clickatell.com/messages/http/send?apiKey=aKvG7PS9RsWtW37jec-SFw==&to=+6281298230631&content=Time+to+buy+'+coin+'+because+your+base+is+'+amount+'+and+the+last+price+is+'+last, function (error, response, body) {
       console.log('error:', error); // Print the error if one occurred
       console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
       console.log('body:', body); // Print the HTML for the Google homepage.
+      if(response && response.statusCode === 202) {
+        self.props.reset();
+      }
     });
   }
 
-  _sendSellSMS() {
-
+  _sendSellSMS(coin, amount, last) {
+    var self = this;
+    request('https://platform.clickatell.com/messages/http/send?apiKey=aKvG7PS9RsWtW37jec-SFw==&to=+6281298230631&content=Time+to+sell+'+coin+'+because+your+base+is+'+amount+'+and+the+last+price+is+'+last, function (error, response, body) {
+      console.log('error:', error); // Print the error if one occurred
+      console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+      console.log('body:', body); // Print the HTML for the Google homepage.
+      if(response && response.statusCode === 202) {
+        self.props.reset();
+      }
+    });
   }
 
   _tick() {
@@ -128,6 +142,7 @@ class Homepage extends React.Component {
   }
 
   render() {
+    console.log(this.props.isBaseActive, 'BASE...');
     return (
       <div className="Homepage">
         <header className="Homepage-header">
@@ -187,6 +202,7 @@ const mapDispatchToProps = (dispatch) => {
     getEtherumData: () => dispatch(fetchEtherum()),
     getLitecoinData: () => dispatch(fetchLitecoin()),
     getWavesData: () => dispatch(fetchWaves()),
+    reset: () => dispatch(resetBase()),
   }
 }
 

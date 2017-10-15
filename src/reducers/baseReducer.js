@@ -10,7 +10,7 @@ export default function baseReducer(state = initialState, action) {
     case 'ACTIVATED_BASE':
       return {...state, isBaseActive: true}
     case 'DEACTIVATED_BASE':
-      return {...state, isBaseActive: false, amount: 0, baseStatus: null}
+      return {...state, coin: '', isBaseActive: false, amount: 0, baseStatus: null}
     case 'BUYING_BASE':
       return {...state, coin: action.coin, amount: action.amount, baseStatus: 'buy'}
     case 'SELLING_BASE':

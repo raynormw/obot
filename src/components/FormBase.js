@@ -5,7 +5,9 @@ import {
   Radio,
   InputNumber,
   Button,
-  Select
+  Select,
+  Row,
+  Col
 } from 'antd';
 
 import {
@@ -18,8 +20,12 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
 const styles = {
+  dropdownContainer: {
+    width : '17em',
+    paddingLeft: '1.75em'
+  },
   inputNumberContainer: {
-    width : '13em'
+    width : '15em'
   }
 }
 
@@ -39,16 +45,24 @@ class FormBase extends React.Component {
 
   _handleSubmit = (e) => {
     e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
+    this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
         if(values.status === 'buy') {
           this.props.submitBuying(values.coin, values.price);
+          alert('Base for buy success!');
+          this._handleReset();
         } else if(values.status === 'sell') {
           this.props.submitSelling(values.coin, values.price);
+          alert('Base for sell success!');
+          this._handleReset();
         }
       }
     });
+  }
+
+  _handleReset = () => {
+    this.props.form.resetFields();
   }
 
   render() {
@@ -89,7 +103,7 @@ class FormBase extends React.Component {
               required: true, message: 'Please select your Coin!',
             }],
           })(
-            <Select style={{ width: 120 }} onChange={this._handleChangeSelect}>
+            <Select style={styles.dropdownContainer} onChange={this._handleChangeSelect}>
               <Option value="bitcoin">Bitcoin/IDR</Option>
               <Option value="eth">ETH/IDR</Option>
               <Option value="ltc">LTC/IDR</Option>
@@ -102,12 +116,11 @@ class FormBase extends React.Component {
           label="Amount"
         >
           {getFieldDecorator('price', {
-            initialValue: 0,
             rules: [{ required: true, message: 'Please input your base amount!' }],
           })(
 
             <InputNumber style={styles.inputNumberContainer}
-              min={0}
+              min={1}
               formatter={value => `Rp. ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               parser={value => value.replace(/Rp.\s?|(,*)/g, '')}
               onChange={this._onchangeAmount}
@@ -128,12 +141,17 @@ class FormBase extends React.Component {
             </RadioGroup>
           )}
         </FormItem>
-        <FormItem {...tailFormItemLayout} style={{ marginBottom: 8 }}>
-          <Button type="primary" htmlType="submit">Submit</Button>
-        </FormItem>
-        {/* <FormItem {...tailFormItemLayout} style={{ marginBottom: 8 }}>
-          <Button type="primary" htmlType="submit">Submit</Button>
-        </FormItem> */}
+
+          <FormItem {...tailFormItemLayout} style={{ marginBottom: 8 }}>
+            <Row type="flex" justify="space-between">
+              <Col span={8}>
+                <Button type="danger" onClick={this._handleReset}>Reset</Button>
+              </Col>
+              <Col span={8}>
+                <Button type="primary" htmlType="submit">Submit</Button>
+              </Col>
+            </Row>
+          </FormItem>
       </Form>
     );
   }
