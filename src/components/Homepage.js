@@ -26,14 +26,14 @@ const styles = {
     margin: 0
   },
   timeContainer: {
-    textAlign: 'right',
-    paddingRight: '3em',
+    textAlign: 'left',
+    paddingLeft: '3em',
     position: 'fixed',
     height: '50px',
     bottom: '0px',
     left: '0px',
     right: '0px',
-    marginBottom: '0px'
+    marginBottom: '0px',
   },
   h3: {
     textAlign: 'left',
