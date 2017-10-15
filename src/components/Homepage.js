@@ -10,8 +10,11 @@ import { fetchEtherum } from '../actions/etherumAction.js';
 import { fetchLitecoin } from '../actions/litecoinAction.js';
 import { fetchWaves } from '../actions/wavesAction.js';
 import { TableCoin } from './TableCoin.js';
+import WrappedFormBase from './FormBase.js';
 import logo from '../logo.svg';
 import './Homepage.css';
+
+var request = require('request');
 
 const styles = {
   rowContainer: {
@@ -28,6 +31,11 @@ const styles = {
     left: '0px',
     right: '0px',
     marginBottom: '0px'
+  },
+  h3: {
+    textAlign: 'left',
+    paddingLeft: '1em',
+    marginBottom: '1em'
   }
 };
 
@@ -65,6 +73,12 @@ class Homepage extends React.Component {
       () => this.props.getWavesData(),
       5000
     );
+
+    this.timerNotif = setInterval(
+      () => this._checkBase(),
+      5000
+    );
+
   }
 
   componentWillUnmount() {
@@ -74,7 +88,39 @@ class Homepage extends React.Component {
       this.timerEtherum,
       this.timerLitecoin,
       this.timerWaves,
+      this.timerNotif
     );
+  }
+
+  _checkBase() {
+    if(this.props.isBaseActive === true) {
+      if(this.props.coin === 'bitcoin') {
+        if(this.props.status === 'buy') {
+          if(this.props.bitcoinData.last < this.props.amount) {
+            console.log('time to buy');
+            this._sendBuySMS(this.props.coin, this.props.amount, this.props.bitcoinData.last);
+          }
+        } else if(this.props.status === 'sell') {
+          if(this.props.bitcoinData.last > this.props.amount) {
+            console.log('time to sell');
+          }
+        }
+      } else if(this.props.coin === 'eth') {
+        console.log('ETH');
+      }
+    }
+  }
+
+  _sendBuySMS(coin, amount, last) {
+    request('https://platform.clickatell.com/messages/http/send?apiKey=aKvG7PS9RsWtW37jec-SFw==&to=+6281298230631&content=Time+to+buy+'+coin+'+because+your+base+is+'+amount+'+and+the+last+price+is'+last, function (error, response, body) {
+      console.log('error:', error); // Print the error if one occurred
+      console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+      console.log('body:', body); // Print the HTML for the Google homepage.
+    });
+  }
+
+  _sendSellSMS() {
+
   }
 
   _tick() {
@@ -93,7 +139,8 @@ class Homepage extends React.Component {
         </p>
         <Row type="flex" justify="space-between" style={styles.rowContainer}>
           <Col span={8}>
-            tes
+            <h3 style={styles.h3}>Base Setting:</h3>
+            <WrappedFormBase />
           </Col>
           <Col span={15}>
             <TableCoin
@@ -126,6 +173,11 @@ const mapStateToProps = (state) => {
     litecoinStatus: state.litecoin.status,
     wavesData: state.waves.data,
     wavesStatus: state.waves.status,
+
+    isBaseActive: state.base.isBaseActive,
+    coin: state.base.coin,
+    amount: state.base.amount,
+    status: state.base.baseStatus,
   }
 }
 
