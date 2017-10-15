@@ -21,11 +21,11 @@ const Option = Select.Option;
 const RadioGroup = Radio.Group;
 const styles = {
   dropdownContainer: {
-    width : '17em',
-    paddingLeft: '1.75em'
+    width : '15em',
+    paddingLeft: '2.5em'
   },
   inputNumberContainer: {
-    width : '15em'
+    width : '13em'
   }
 }
 

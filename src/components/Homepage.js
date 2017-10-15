@@ -108,7 +108,41 @@ class Homepage extends React.Component {
           }
         }
       } else if(this.props.coin === 'eth') {
-        console.log('ETH');
+        if(this.props.status === 'buy') {
+          if(this.props.etherumData.last < this.props.amount) {
+            console.log('time to buy');
+            this._sendBuySMS(this.props.coin, this.props.amount, this.props.etherumData.last);
+          }
+        } else if(this.props.status === 'sell') {
+          if(this.props.etherumData.last > this.props.amount) {
+            console.log('time to sell');
+            this._sendSellSMS(this.props.coin, this.props.amount, this.props.etherumData.last);
+          }
+        }
+      } else if(this.props.coin === 'ltc') {
+        if(this.props.status === 'buy') {
+          if(this.props.litecoinData.last < this.props.amount) {
+            console.log('time to buy');
+            this._sendBuySMS(this.props.coin, this.props.amount, this.props.litecoinData.last);
+          }
+        } else if(this.props.status === 'sell') {
+          if(this.props.litecoinData.last > this.props.amount) {
+            console.log('time to sell');
+            this._sendSellSMS(this.props.coin, this.props.amount, this.props.litecoinData.last);
+          }
+        }
+      } else if(this.props.coin === 'waves') {
+        if(this.props.status === 'buy') {
+          if(this.props.wavesData.last < this.props.amount) {
+            console.log('time to buy');
+            this._sendBuySMS(this.props.coin, this.props.amount, this.props.wavesData.last);
+          }
+        } else if(this.props.status === 'sell') {
+          if(this.props.wavesData.last > this.props.amount) {
+            console.log('time to sell');
+            this._sendSellSMS(this.props.coin, this.props.amount, this.props.wavesData.last);
+          }
+        }
       }
     }
   }
@@ -142,7 +176,6 @@ class Homepage extends React.Component {
   }
 
   render() {
-    console.log(this.props.isBaseActive, 'BASE...');
     return (
       <div className="Homepage">
         <header className="Homepage-header">
