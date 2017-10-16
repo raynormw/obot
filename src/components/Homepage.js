@@ -11,13 +11,22 @@ import { fetchLitecoin } from '../actions/litecoinAction.js';
 import { fetchWaves } from '../actions/wavesAction.js';
 import { fetchRipple } from '../actions/rippleAction.js';
 import { fetchZonk } from '../actions/zonkAction.js';
-import { resetBase } from '../actions/baseAction.js';
+import {
+  fetchBitcoinBase,
+  fetchEtherumBase,
+  fetchLitecoinBase,
+  fetchWavesBase,
+  fetchRippleBase,
+  fetchZonkBase,
+  resetBase
+} from '../actions/baseAction.js';
 import { TableCoin } from './TableCoin.js';
 import WrappedFormBase from './FormBase.js';
+import { BaseStatus } from './BaseStatus.js';
 import logo from '../logo.svg';
 import './Homepage.css';
 
-var request = require('request');
+const request = require('request');
 
 const styles = {
   rowContainer: {
@@ -26,20 +35,20 @@ const styles = {
     margin: 0
   },
   timeContainer: {
-    textAlign: 'left',
-    paddingLeft: '3em',
+    textAlign: 'right',
+    paddingRight: '3em',
     position: 'fixed',
-    height: '50px',
+    height: '20px',
     bottom: '0px',
     left: '0px',
     right: '0px',
-    marginBottom: '0px',
+    marginBottom: '5px',
   },
   h3: {
     textAlign: 'left',
     paddingLeft: '1em',
     marginBottom: '1em'
-  }
+  },
 };
 
 class Homepage extends React.Component {
@@ -87,10 +96,12 @@ class Homepage extends React.Component {
       5000
     );
 
-    this.timerNotif = setInterval(
-      () => this._checkBase(),
-      5000
-    );
+    // this.timerNotif = setInterval(
+    //   () => this._checkBase(),
+    //   6000
+    // );
+
+    this._fetchDb();
 
   }
 
@@ -103,8 +114,24 @@ class Homepage extends React.Component {
       this.timerWaves,
       this.timerRipple,
       this.timerZonk,
-      this.timerNotif
+      //this.timerNotif
     );
+  }
+
+  _fetchDb() {
+    // Axios.patch('https://kanban-raynor.firebaseio.com/todos/-KwWdd3mntsjd19bpIog.json', {
+    //   assign: 'tes post lagi',
+    //   point: '5juta',
+    //   title: 'posting via axios lagi'
+    // })
+    // .then((res) => console.log(res))
+    // .catch((error) => console.log(error))
+    this.props.getBitcoinDB();
+    this.props.getEtherumDB();
+    this.props.getLitecoinDB();
+    this.props.getRippleDB();
+    this.props.getWavesDB();
+    this.props.getZonkDB();
   }
 
   _checkBase() {
@@ -227,6 +254,14 @@ class Homepage extends React.Component {
           <Col span={8}>
             <h3 style={styles.h3}>Base Setting:</h3>
             <WrappedFormBase />
+            <BaseStatus
+              bitcoinDB = {this.props.bitcoinDB}
+              etherumDB = {this.props.etherumDB}
+              litecoinDB = {this.props.litecoinDB}
+              rippleDB = {this.props.rippleDB}
+              wavesDB = {this.props.wavesDB}
+              zonkDB = {this.props.zonkDB}
+            />
           </Col>
           <Col span={15}>
             <TableCoin
@@ -268,10 +303,17 @@ const mapStateToProps = (state) => {
     zonkData: state.zonk.data,
     zonkStatus: state.zonk.status,
 
-    isBaseActive: state.base.isBaseActive,
-    coin: state.base.coin,
-    amount: state.base.amount,
-    status: state.base.baseStatus,
+    // isBaseActive: state.base.isBaseActive,
+    // coin: state.base.coin,
+    // amount: state.base.amount,
+    // status: state.base.baseStatus,
+    // isActive: state.base.tes.isActive,
+    bitcoinDB: state.base.bitcoin,
+    etherumDB: state.base.etherum,
+    litecoinDB: state.base.litecoin,
+    rippleDB: state.base.ripple,
+    wavesDB: state.base.waves,
+    zonkDB: state.base.zonk
   }
 }
 
@@ -283,6 +325,13 @@ const mapDispatchToProps = (dispatch) => {
     getWavesData: () => dispatch(fetchWaves()),
     getRippleData: () => dispatch(fetchRipple()),
     getZonkData: () => dispatch(fetchZonk()),
+
+    getBitcoinDB: () => dispatch(fetchBitcoinBase()),
+    getEtherumDB: () => dispatch(fetchEtherumBase()),
+    getLitecoinDB: () => dispatch(fetchLitecoinBase()),
+    getWavesDB: () => dispatch(fetchWavesBase()),
+    getRippleDB: () => dispatch(fetchRippleBase()),
+    getZonkDB: () => dispatch(fetchZonkBase()),
     reset: () => dispatch(resetBase()),
   }
 }

@@ -13,7 +13,6 @@ import {
 import {
   buyingBase,
   sellingBase,
-  resetBase
 } from '../actions/baseAction.js';
 
 const FormItem = Form.Item;
@@ -44,12 +43,13 @@ class FormBase extends React.Component {
   }
 
   _handleSubmit = (e) => {
+    let tes = {isActive: true}
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
         if(values.status === 'buy') {
-          this.props.submitBuying(values.coin, values.price);
+          this.props.submitBuying(values.coin, values.price, tes);
           alert('Base for buy success!');
           this._handleReset();
         } else if(values.status === 'sell') {
@@ -105,11 +105,11 @@ class FormBase extends React.Component {
           })(
             <Select style={styles.dropdownContainer} onChange={this._handleChangeSelect}>
               <Option value="bitcoin">Bitcoin/IDR</Option>
-              <Option value="eth">ETH/IDR</Option>
-              <Option value="ltc">LTC/IDR</Option>
+              <Option value="etherum">ETH/IDR</Option>
+              <Option value="litecoin">LTC/IDR</Option>
               <Option value="waves">WAVES/IDR</Option>
-              <Option value="xrp">XRP/IDR</Option>
-              <Option value="xzc">XZC/IDR</Option>
+              <Option value="ripple">XRP/IDR</Option>
+              <Option value="zonk">XZC/IDR</Option>
             </Select>
           )}
         </FormItem>
@@ -161,9 +161,8 @@ class FormBase extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    submitBuying: (coin, amount) => dispatch(buyingBase(coin, amount)),
+    submitBuying: (coin, amount, param) => dispatch(buyingBase(coin, amount, param)),
     submitSelling: (coin, amount) => dispatch(sellingBase(coin, amount)),
-    reset: () => dispatch(resetBase()),
   }
 }
 

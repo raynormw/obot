@@ -1,7 +1,6 @@
 import React from 'react';
 import { Table } from 'antd';
 
-
 const columns = [{
   title: 'Market',
   dataIndex: 'market',
