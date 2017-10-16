@@ -10,26 +10,9 @@ import {
   zonkDB
 } from '../utils/api.js';
 
-// export const buyingBase = (coin, amount, param) => {
-//   return dispatch => {
-//     dispatch({type: 'ACTIVATED_BASE', payload: param})
-//     dispatch({
-//       type: 'BUYING_BASE',
-//       coin: coin,
-//       amount: amount
-//     })
-//   }
-// }
-// Axios.patch('https://kanban-raynor.firebaseio.com/todos/-KwWdd3mntsjd19bpIog.json', {
-//   assign: 'tes post lagi',
-//   point: '5juta',
-//   title: 'posting via axios lagi'
-// })
-// .then((res) => console.log(res))
-// .catch((error) => console.log(error))
-
 export const buyingBase = (coin, amount) => {
   return dispatch => {
+    dispatch({type: 'START_FETCHING', payload: true})
     Axios.patch(DB + coin + '.json', {
       amount: amount,
       isActive: true,
@@ -69,6 +52,7 @@ export const resetBase = () => {
 
 export const fetchBitcoinBase = () => {
   return dispatch => {
+    dispatch({type: 'START_FETCHING', payload: true})
     Axios.get(bitcoinDB)
     .then((res) => {
       dispatch({
@@ -87,6 +71,7 @@ export const fetchBitcoinBase = () => {
 
 export const fetchEtherumBase = () => {
   return dispatch => {
+    dispatch({type: 'START_FETCHING', payload: true})
     Axios.get(etherumDB)
     .then((res) => {
       dispatch({
@@ -105,6 +90,7 @@ export const fetchEtherumBase = () => {
 
 export const fetchLitecoinBase = () => {
   return dispatch => {
+    dispatch({type: 'START_FETCHING', payload: true})
     Axios.get(litecoinDB)
     .then((res) => {
       dispatch({
@@ -123,6 +109,7 @@ export const fetchLitecoinBase = () => {
 
 export const fetchRippleBase = () => {
   return dispatch => {
+    dispatch({type: 'START_FETCHING', payload: true})
     Axios.get(rippleDB)
     .then((res) => {
       dispatch({
@@ -141,6 +128,7 @@ export const fetchRippleBase = () => {
 
 export const fetchWavesBase = () => {
   return dispatch => {
+    dispatch({type: 'START_FETCHING', payload: true})
     Axios.get(wavesDB)
     .then((res) => {
       dispatch({
@@ -159,6 +147,7 @@ export const fetchWavesBase = () => {
 
 export const fetchZonkBase = () => {
   return dispatch => {
+    dispatch({type: 'START_FETCHING', payload: true})
     Axios.get(zonkDB)
     .then((res) => {
       dispatch({

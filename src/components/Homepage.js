@@ -59,7 +59,6 @@ class Homepage extends React.Component {
       date: new Date()
     }
 
-    this._fetchDb = this._fetchDb.bind(this)
   }
 
   componentDidMount() {
@@ -98,6 +97,11 @@ class Homepage extends React.Component {
       5000
     );
 
+    this.checkDB = setInterval(
+      () => this._checkDB(),
+      1000
+    );
+
     // this.timerNotif = setInterval(
     //   () => this._checkBase(),
     //   6000
@@ -116,8 +120,15 @@ class Homepage extends React.Component {
       this.timerWaves,
       this.timerRipple,
       this.timerZonk,
+      this.checkDB
       //this.timerNotif
     );
+  }
+
+  _checkDB() {
+    if(this.props.dbNotif !== false) {
+      this._fetchDb();
+    }
   }
 
   _fetchDb() {
@@ -256,6 +267,8 @@ class Homepage extends React.Component {
               rippleDB = {this.props.rippleDB}
               wavesDB = {this.props.wavesDB}
               zonkDB = {this.props.zonkDB}
+              fetching = {this.props.dbStatus}
+              notif = {this.props.dbNotif}
             />
           </Col>
           <Col span={15}>
@@ -303,7 +316,9 @@ const mapStateToProps = (state) => {
     litecoinDB: state.base.litecoin,
     rippleDB: state.base.ripple,
     wavesDB: state.base.waves,
-    zonkDB: state.base.zonk
+    zonkDB: state.base.zonk,
+    dbStatus: state.base.fetching,
+    dbNotif: state.base.notif
   }
 }
 

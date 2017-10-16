@@ -14,12 +14,6 @@ import {
 import {
   buyingBase,
   sellingBase,
-  // fetchBitcoinBase,
-  // fetchEtherumBase,
-  // fetchLitecoinBase,
-  // fetchWavesBase,
-  // fetchRippleBase,
-  // fetchZonkBase,
 } from '../actions/baseAction.js';
 
 const FormItem = Form.Item;
@@ -82,6 +76,7 @@ class FormBase extends React.Component {
     this.props.form.resetFields();
   }
 
+
   render() {
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
@@ -106,7 +101,7 @@ class FormBase extends React.Component {
         },
       },
     };
-
+    
     return (
       <Form onSubmit={this._handleSubmit}>
         <FormItem
@@ -185,7 +180,7 @@ class FormBase extends React.Component {
 const mapDispatchToProps = (dispatch) => {
   return {
     submitBuying: (coin, amount) => dispatch(buyingBase(coin, amount)),
-    submitSelling: (coin, amount) => dispatch(sellingBase(coin, amount)),
+    submitSelling: (coin, amount) => dispatch(sellingBase(coin, amount))
   }
 }
 
