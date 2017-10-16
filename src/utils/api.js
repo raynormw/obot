@@ -1,5 +1,5 @@
 const API = 'https://vip.bitcoin.co.id/api/';
-const DB = 'https://obotdb.firebaseio.com/';
+export const DB = 'https://obotdb.firebaseio.com/';
 
 export const bitcoinAPI = API + 'btc_idr/ticker';
 export const etherumAPI = API + 'eth_idr/ticker';

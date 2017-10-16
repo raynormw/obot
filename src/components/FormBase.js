@@ -7,12 +7,19 @@ import {
   Button,
   Select,
   Row,
-  Col
+  Col,
+  Alert
 } from 'antd';
 
 import {
   buyingBase,
   sellingBase,
+  // fetchBitcoinBase,
+  // fetchEtherumBase,
+  // fetchLitecoinBase,
+  // fetchWavesBase,
+  // fetchRippleBase,
+  // fetchZonkBase,
 } from '../actions/baseAction.js';
 
 const FormItem = Form.Item;
@@ -25,10 +32,17 @@ const styles = {
   },
   inputNumberContainer: {
     width : '13em'
+  },
+  modal: {
+    marginTop: '1em'
   }
 }
 
 class FormBase extends React.Component {
+  state = {
+    modalbuy: false,
+    modalsell: false
+  }
 
   _onChangeRadio = (e) => {
     console.log('radio checked', e.target.value);
@@ -43,19 +57,22 @@ class FormBase extends React.Component {
   }
 
   _handleSubmit = (e) => {
-    let tes = {isActive: true}
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
         if(values.status === 'buy') {
-          this.props.submitBuying(values.coin, values.price, tes);
-          alert('Base for buy success!');
+          this.props.submitBuying(values.coin, values.price);
           this._handleReset();
+          this.setState({
+            modalbuy: true
+          });
         } else if(values.status === 'sell') {
           this.props.submitSelling(values.coin, values.price);
-          alert('Base for sell success!');
           this._handleReset();
+          this.setState({
+            modalsell: true
+          });
         }
       }
     });
@@ -144,16 +161,22 @@ class FormBase extends React.Component {
           )}
         </FormItem>
 
-          <FormItem {...tailFormItemLayout} style={{ marginBottom: 8 }}>
-            <Row type="flex" justify="space-between">
-              <Col span={8}>
-                <Button type="danger" onClick={this._handleReset}>Reset</Button>
-              </Col>
-              <Col span={8}>
-                <Button type="primary" htmlType="submit">Submit</Button>
-              </Col>
-            </Row>
-          </FormItem>
+        <FormItem {...tailFormItemLayout} style={{ marginBottom: 8 }}>
+          <Row type="flex" justify="space-between">
+            <Col span={8}>
+              <Button type="danger" onClick={this._handleReset}>Reset</Button>
+            </Col>
+            <Col span={8}>
+              <Button type="primary" htmlType="submit">Submit</Button>
+            </Col>
+          </Row>
+        </FormItem>
+        {this.state.modalbuy &&
+          <Alert message="Base for buy success!" type="success" closable style={styles.modal}/>
+        }
+        {this.state.modalsell &&
+          <Alert message="Base for sell success!" type="info" closable style={styles.modal}/>
+        }
       </Form>
     );
   }
@@ -161,7 +184,7 @@ class FormBase extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    submitBuying: (coin, amount, param) => dispatch(buyingBase(coin, amount, param)),
+    submitBuying: (coin, amount) => dispatch(buyingBase(coin, amount)),
     submitSelling: (coin, amount) => dispatch(sellingBase(coin, amount)),
   }
 }

@@ -1,8 +1,5 @@
 const initialState = {
-  isBaseActive: false,
-  coin: '',
-  amount: 0,
-  baseStatus: null,
+  notif: '',
   tes: {
     isActive: false
   },
@@ -40,14 +37,12 @@ const initialState = {
 
 export default function baseReducer(state = initialState, action) {
   switch (action.type) {
-    case 'ACTIVATED_BASE':
-      return {...state, isBaseActive: true, tes: action.payload}
-    case 'DEACTIVATED_BASE':
-      return {...state, coin: '', isBaseActive: false, amount: 0, baseStatus: null}
-    case 'BUYING_BASE':
-      return {...state, coin: action.coin, amount: action.amount, baseStatus: 'buy'}
-    case 'SELLING_BASE':
-      return {...state, coin: action.coin, amount: action.amount, baseStatus: 'sell'}
+    case 'BUYING_BASE_SUCCESS':
+      return {...state, notif: 'success'}
+    case 'BUYING_BASE_ERROR':
+      return {...state, notif: 'failed'}
+    case 'SELLING_BASE_SUCCESS':
+      return {...state, notif: 'Base for sell success!'}
     case 'FETCH_BITCOIN_BASE':
       return {...state, bitcoin: action.payload}
     case 'FETCH_ETHERUM_BASE':

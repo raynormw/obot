@@ -58,6 +58,8 @@ class Homepage extends React.Component {
     this.state = {
       date: new Date()
     }
+
+    this._fetchDb = this._fetchDb.bind(this)
   }
 
   componentDidMount() {
@@ -119,13 +121,6 @@ class Homepage extends React.Component {
   }
 
   _fetchDb() {
-    // Axios.patch('https://kanban-raynor.firebaseio.com/todos/-KwWdd3mntsjd19bpIog.json', {
-    //   assign: 'tes post lagi',
-    //   point: '5juta',
-    //   title: 'posting via axios lagi'
-    // })
-    // .then((res) => console.log(res))
-    // .catch((error) => console.log(error))
     this.props.getBitcoinDB();
     this.props.getEtherumDB();
     this.props.getLitecoinDB();
@@ -303,11 +298,6 @@ const mapStateToProps = (state) => {
     zonkData: state.zonk.data,
     zonkStatus: state.zonk.status,
 
-    // isBaseActive: state.base.isBaseActive,
-    // coin: state.base.coin,
-    // amount: state.base.amount,
-    // status: state.base.baseStatus,
-    // isActive: state.base.tes.isActive,
     bitcoinDB: state.base.bitcoin,
     etherumDB: state.base.etherum,
     litecoinDB: state.base.litecoin,
