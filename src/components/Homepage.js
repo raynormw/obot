@@ -4,7 +4,12 @@ import {
   Row,
   Col,
 } from 'antd';
+import Axios from 'axios';
 
+import {
+  APIkey1,
+  APIkey2,
+} from '../utils/api.js';
 import { fetchBitcoin } from '../actions/bitcoinAction.js';
 import { fetchEtherum } from '../actions/etherumAction.js';
 import { fetchLitecoin } from '../actions/litecoinAction.js';
@@ -25,8 +30,6 @@ import WrappedFormBase from './FormBase.js';
 import { BaseStatus } from './BaseStatus.js';
 import logo from '../logo.svg';
 import './Homepage.css';
-
-const request = require('request');
 
 const styles = {
   rowContainer: {
@@ -145,109 +148,46 @@ class Homepage extends React.Component {
       if(this.props.bitcoinDB.status === 'buy') {
         if(this.props.bitcoinData.last < this.props.bitcoinDB.amount) {
           console.log('time to buy bitcoin');
-          this._sendBuySMS('bitcoin', this.props.bitcoinDB.amount, this.props.bitcoinData.last);
+          this._sendBuySMS(APIkey1, 'bitcoin', this.props.bitcoinDB.amount, this.props.bitcoinData.last);
+        }
+      } else if(this.props.bitcoinDB.status === 'sell') {
+        if(this.props.bitcoinData.last > this.props.bitcoinDB.amount) {
+          console.log('time to sell bitcoin');
+          this._sendSellSMS(APIkey2, 'bitcoin', this.props.bitcoinDB.amount, this.props.bitcoinData.last);
         }
       }
     }
-
-    // if(this.props.isBaseActive === true) {
-    //   if(this.props.coin === 'bitcoin') {
-    //     if(this.props.status === 'buy') {
-    //       if(this.props.bitcoinData.last < this.props.amount) {
-    //         console.log('time to buy');
-    //         this._sendBuySMS(this.props.coin, this.props.amount, this.props.bitcoinData.last);
-    //       }
-    //     } else if(this.props.status === 'sell') {
-    //       if(this.props.bitcoinData.last > this.props.amount) {
-    //         console.log('time to sell');
-    //         this._sendSellSMS(this.props.coin, this.props.amount, this.props.bitcoinData.last);
-    //       }
-    //     }
-    //   } else if(this.props.coin === 'eth') {
-    //     if(this.props.status === 'buy') {
-    //       if(this.props.etherumData.last < this.props.amount) {
-    //         console.log('time to buy');
-    //         this._sendBuySMS(this.props.coin, this.props.amount, this.props.etherumData.last);
-    //       }
-    //     } else if(this.props.status === 'sell') {
-    //       if(this.props.etherumData.last > this.props.amount) {
-    //         console.log('time to sell');
-    //         this._sendSellSMS(this.props.coin, this.props.amount, this.props.etherumData.last);
-    //       }
-    //     }
-    //   } else if(this.props.coin === 'ltc') {
-    //     if(this.props.status === 'buy') {
-    //       if(this.props.litecoinData.last < this.props.amount) {
-    //         console.log('time to buy');
-    //         this._sendBuySMS(this.props.coin, this.props.amount, this.props.litecoinData.last);
-    //       }
-    //     } else if(this.props.status === 'sell') {
-    //       if(this.props.litecoinData.last > this.props.amount) {
-    //         console.log('time to sell');
-    //         this._sendSellSMS(this.props.coin, this.props.amount, this.props.litecoinData.last);
-    //       }
-    //     }
-    //   } else if(this.props.coin === 'waves') {
-    //     if(this.props.status === 'buy') {
-    //       if(this.props.wavesData.last < this.props.amount) {
-    //         console.log('time to buy');
-    //         this._sendBuySMS(this.props.coin, this.props.amount, this.props.wavesData.last);
-    //       }
-    //     } else if(this.props.status === 'sell') {
-    //       if(this.props.wavesData.last > this.props.amount) {
-    //         console.log('time to sell');
-    //         this._sendSellSMS(this.props.coin, this.props.amount, this.props.wavesData.last);
-    //       }
-    //     }
-    //   } else if(this.props.coin === 'xrp') {
-    //     if(this.props.status === 'buy') {
-    //       if(this.props.rippleData.last < this.props.amount) {
-    //         console.log('time to buy');
-    //         this._sendBuySMS(this.props.coin, this.props.amount, this.props.rippleData.last);
-    //       }
-    //     } else if(this.props.status === 'sell') {
-    //       if(this.props.rippleData.last > this.props.amount) {
-    //         console.log('time to sell');
-    //         this._sendSellSMS(this.props.coin, this.props.amount, this.props.rippleData.last);
-    //       }
-    //     }
-    //   } else if(this.props.coin === 'xzc') {
-    //     if(this.props.status === 'buy') {
-    //       if(this.props.zonkData.last < this.props.amount) {
-    //         console.log('time to buy');
-    //         this._sendBuySMS(this.props.coin, this.props.amount, this.props.zonkData.last);
-    //       }
-    //     } else if(this.props.status === 'sell') {
-    //       if(this.props.zonkData.last > this.props.amount) {
-    //         console.log('time to sell');
-    //         this._sendSellSMS(this.props.coin, this.props.amount, this.props.zonkData.last);
-    //       }
-    //     }
-    //   }
-    // }
   }
 
-  _sendBuySMS(coin, amount, last) {
+  _sendBuySMS(apikey, coin, amount, last) {
     var self = this;
-    request('https://platform.clickatell.com/messages/http/send?apiKey=aKvG7PS9RsWtW37jec-SFw==&to=+6281298230631&content=Time+to+buy+'+coin+'+because+your+base+is+'+amount+'+and+the+last+price+is+'+last, function (error, response, body) {
-      console.log('error:', error); // Print the error if one occurred
-      console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-      console.log('body:', body); // Print the HTML for the Google homepage.
-      if(response && response.statusCode === 202) {
-        self.props.reset(coin);
+
+    Axios.get('https://platform.clickatell.com/messages/http/send?apiKey='+apikey+'&to=+6281298230631&content=Time+to+buy+'+coin+'+because+your+base+is+'+amount+'+and+the+last+price+is+'+last)
+    .then((res) => {
+      self.props.reset(coin);
+      console.log(res.data);
+      if(res.data.error) {
+        self._sendBuySMS(APIkey2, coin, amount, last);
       }
+    })
+    .catch((error) => {
+      console.log('Send SMS error..', error);
     });
   }
 
-  _sendSellSMS(coin, amount, last) {
+  _sendSellSMS(apikey, coin, amount, last) {
     var self = this;
-    request('https://platform.clickatell.com/messages/http/send?apiKey=aKvG7PS9RsWtW37jec-SFw==&to=+6281298230631&content=Time+to+sell+'+coin+'+because+your+base+is+'+amount+'+and+the+last+price+is+'+last, function (error, response, body) {
-      console.log('error:', error); // Print the error if one occurred
-      console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-      console.log('body:', body); // Print the HTML for the Google homepage.
-      if(response && response.statusCode === 202) {
-        self.props.reset();
+
+    Axios.get('https://platform.clickatell.com/messages/http/send?apiKey='+apikey+'&to=+6281298230631&content=Time+to+sell+'+coin+'+because+your+base+is+'+amount+'+and+the+last+price+is+'+last)
+    .then((res) => {
+      self.props.reset(coin);
+      console.log(res.data);
+      if(res.data.error) {
+        self._sendSellSMS(APIkey1, coin, amount, last);
       }
+    })
+    .catch((error) => {
+      console.log('Send SMS error..', error);
     });
   }
 

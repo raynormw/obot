@@ -14,3 +14,7 @@ export const litecoinDB = DB + 'litecoin.json';
 export const wavesDB = DB + 'waves.json';
 export const rippleDB = DB + 'ripple.json';
 export const zonkDB = DB + 'zonk.json';
+
+export const APIkey = 'aKvG7PS9RsWtW37jec-SFw==';
+export const APIkey1 = 'AqFtrlfmR52FmV9dGfWINg==';
+export const APIkey2 = 'xSKfoBKkS6K6mo32lW1EIg==';
