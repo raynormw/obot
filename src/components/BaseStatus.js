@@ -21,48 +21,12 @@ const styles = {
 }
 
 export const BaseStatus = (props) => {
-  let bitcoinStatus,
-      etherumStatus,
-      litecoinStatus,
-      rippleStatus,
-      wavesStatus,
-      zonkStatus;
-
-  if(props.bitcoinDB.isActive) {
-    bitcoinStatus = 'active'
-  } else {
-    bitcoinStatus = 'not active'
-  }
-
-  if(props.etherumDB.isActive) {
-    etherumStatus = 'active'
-  } else {
-    etherumStatus = 'not active'
-  }
-
-  if(props.litecoinDB.isActive) {
-    litecoinStatus = 'active'
-  } else {
-    litecoinStatus = 'not active'
-  }
-
-  if(props.rippleDB.isActive) {
-    rippleStatus = 'active'
-  } else {
-    rippleStatus = 'not active'
-  }
-
-  if(props.wavesDB.isActive) {
-    wavesStatus = 'active'
-  } else {
-    wavesStatus = 'not active'
-  }
-
-  if(props.zonkDB.isActive) {
-    zonkStatus = 'active'
-  } else {
-    zonkStatus = 'not active'
-  }
+  let bitcoinStatus = (props.bitcoinDB.isActive) ? 'active' : 'not active',
+      etherumStatus = (props.etherumDB.isActive) ? 'active' : 'not active',
+      litecoinStatus = (props.litecoinDB.isActive) ? 'active' : 'not active',
+      rippleStatus = (props.rippleDB.isActive) ? 'active' : 'not active',
+      wavesStatus = (props.wavesDB.isActive) ? 'active' : 'not active',
+      zonkStatus = (props.zonkDB.isActive) ? 'active' : 'not active';
 
   if(props.fetching) {
     return (

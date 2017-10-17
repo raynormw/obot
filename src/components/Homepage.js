@@ -126,7 +126,8 @@ class Homepage extends React.Component {
   }
 
   _checkDB() {
-    if(this.props.dbNotif !== false) {
+    if(this.props.dbNotif) {
+      console.log('interval');
       this._fetchDb();
     }
   }
@@ -268,7 +269,6 @@ class Homepage extends React.Component {
               wavesDB = {this.props.wavesDB}
               zonkDB = {this.props.zonkDB}
               fetching = {this.props.dbStatus}
-              notif = {this.props.dbNotif}
             />
           </Col>
           <Col span={15}>

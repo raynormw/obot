@@ -35,12 +35,24 @@ export const buyingBase = (coin, amount) => {
 
 export const sellingBase = (coin, amount) => {
   return dispatch => {
-    dispatch({type: 'ACTIVATED_BASE'})
-    dispatch({
-      type: 'SELLING_BASE',
-      coin: coin,
-      amount: amount
+    dispatch({type: 'START_FETCHING', payload: true})
+    Axios.patch(DB + coin + '.json', {
+      amount: amount,
+      isActive: true,
+      status: 'sell',
     })
+      .then((res) => {
+        dispatch({
+          type: 'SELLING_BASE_SUCCESS',
+          payload: res.data
+        })
+      })
+      .catch((error) => {
+        dispatch({
+          type: 'SELLING_BASE_ERROR',
+          payload: error
+        })
+      })
   }
 }
 
