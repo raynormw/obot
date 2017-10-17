@@ -5,6 +5,7 @@ import {
   Col,
 } from 'antd';
 import Axios from 'axios';
+import Notification from 'react-web-notification';
 
 import {
   APIkey1,
@@ -30,6 +31,7 @@ import WrappedFormBase from './FormBase.js';
 import { BaseStatus } from './BaseStatus.js';
 import logo from '../logo.svg';
 import './Homepage.css';
+import notifLogo from '../assets/Notifications_button_24.png';
 
 const styles = {
   rowContainer: {
@@ -59,7 +61,14 @@ class Homepage extends React.Component {
     super(props);
 
     this.state = {
-      date: new Date()
+      date: new Date(),
+      notifikasi: false,
+      title: '',
+      options: {
+        body: '',
+        icon: '',
+        sound: '',
+      }
     }
 
   }
@@ -166,6 +175,14 @@ class Homepage extends React.Component {
     .then((res) => {
       self.props.reset(coin);
       console.log(res.data);
+      self.setState({
+        notifikasi: true,
+        title: 'Time to buy ' + coin,
+        options: {
+          body: `Base ${amount} and last price ${last}`,
+          icon: notifLogo,
+        }
+      });
       if(res.data.error) {
         self._sendBuySMS(APIkey2, coin, amount, last);
       }
@@ -182,6 +199,14 @@ class Homepage extends React.Component {
     .then((res) => {
       self.props.reset(coin);
       console.log(res.data);
+      self.setState({
+        notifikasi: true,
+        title: 'Time to buy ' + coin,
+        options: {
+          body: `Base ${amount} and last price ${last}`,
+          icon: notifLogo,
+        }
+      });
       if(res.data.error) {
         self._sendSellSMS(APIkey1, coin, amount, last);
       }
@@ -192,7 +217,11 @@ class Homepage extends React.Component {
   }
 
   _tick() {
-    this.setState({date: new Date()})
+    this.setState({date: new Date()});
+  }
+
+  _handleNotificationOnClose() {
+    this.setState({notifikasi: false});
   }
 
   render() {
@@ -240,6 +269,15 @@ class Homepage extends React.Component {
         <div style={styles.timeContainer}>
           {this.state.date.toLocaleTimeString()}
         </div>
+        {
+          this.state.notifikasi &&
+          <Notification
+            title={this.state.title}
+            options={this.state.options}
+            timeout={15000}
+            onClose={this._handleNotificationOnClose.bind(this)}
+          />
+        }
       </div>
     );
   }
