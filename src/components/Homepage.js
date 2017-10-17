@@ -166,6 +166,76 @@ class Homepage extends React.Component {
         }
       }
     }
+
+    if(this.props.etherumDB.isActive) {
+      if(this.props.etherumDB.status === 'buy') {
+        if(this.props.etherumData.last < this.props.etherumDB.amount) {
+          console.log('time to buy etherum');
+          this._sendBuySMS(APIkey1, 'etherum', this.props.etherumDB.amount, this.props.etherumData.last);
+        }
+      } else if(this.props.etherumDB.status === 'sell') {
+        if(this.props.etherumData.last > this.props.etherumDB.amount) {
+          console.log('time to sell etherum');
+          this._sendSellSMS(APIkey2, 'etherum', this.props.etherumDB.amount, this.props.etherumData.last);
+        }
+      }
+    }
+
+    if(this.props.litecoinDB.isActive) {
+      if(this.props.litecoinDB.status === 'buy') {
+        if(this.props.litecoinData.last < this.props.litecoinDB.amount) {
+          console.log('time to buy litecoin');
+          this._sendBuySMS(APIkey1, 'litecoin', this.props.litecoinDB.amount, this.props.litecoinData.last);
+        }
+      } else if(this.props.litecoinDB.status === 'sell') {
+        if(this.props.litecoinData.last > this.props.litecoinDB.amount) {
+          console.log('time to sell litecoin');
+          this._sendSellSMS(APIkey2, 'litecoin', this.props.litecoinDB.amount, this.props.litecoinData.last);
+        }
+      }
+    }
+
+    if(this.props.wavesDB.isActive) {
+      if(this.props.wavesDB.status === 'buy') {
+        if(this.props.wavesData.last < this.props.wavesDB.amount) {
+          console.log('time to buy waves');
+          this._sendBuySMS(APIkey1, 'waves', this.props.wavesDB.amount, this.props.wavesDB.last);
+        }
+      } else if(this.props.wavesDB.status === 'sell') {
+        if(this.props.wavesData.last > this.props.wavesDB.amount) {
+          console.log('time to sell waves');
+          this._sendSellSMS(APIkey2, 'waves', this.props.wavesDB.amount, this.props.wavesData.last);
+        }
+      }
+    }
+
+    if(this.props.rippleDB.isActive) {
+      if(this.props.rippleDB.status === 'buy') {
+        if(this.props.rippleData.last < this.props.rippleDB.amount) {
+          console.log('time to buy ripple');
+          this._sendBuySMS(APIkey1, 'ripple', this.props.rippleDB.amount, this.props.rippleData.last);
+        }
+      } else if(this.props.rippleDB.status === 'sell') {
+        if(this.props.rippleData.last > this.props.rippleDB.amount) {
+          console.log('time to sell ripple');
+          this._sendSellSMS(APIkey2, 'ripple', this.props.rippleDB.amount, this.props.rippleData.last);
+        }
+      }
+    }
+
+    if(this.props.zonkDB.isActive) {
+      if(this.props.zonkDB.status === 'buy') {
+        if(this.props.zonkData.last < this.props.zonkDB.amount) {
+          console.log('time to buy zonk');
+          this._sendBuySMS(APIkey1, 'zonk', this.props.zonkDB.amount, this.props.zonkData.last);
+        }
+      } else if(this.props.zonkDB.status === 'sell') {
+        if(this.props.zonkData.last > this.props.zonkDB.amount) {
+          console.log('time to sell zonk');
+          this._sendSellSMS(APIkey2, 'zonk', this.props.zonkDB.amount, this.props.zonkData.last);
+        }
+      }
+    }
   }
 
   _sendBuySMS(apikey, coin, amount, last) {
