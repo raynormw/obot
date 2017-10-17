@@ -18,18 +18,18 @@ export const buyingBase = (coin, amount) => {
       isActive: true,
       status: 'buy',
     })
-      .then((res) => {
-        dispatch({
-          type: 'BUYING_BASE_SUCCESS',
-          payload: res.data
-        })
+    .then((res) => {
+      dispatch({
+        type: 'BUYING_BASE_SUCCESS',
+        payload: res.data
       })
-      .catch((error) => {
-        dispatch({
-          type: 'BUYING_BASE_ERROR',
-          payload: error
-        })
+    })
+    .catch((error) => {
+      dispatch({
+        type: 'BUYING_BASE_ERROR',
+        payload: error
       })
+    })
   }
 }
 
@@ -41,24 +41,40 @@ export const sellingBase = (coin, amount) => {
       isActive: true,
       status: 'sell',
     })
-      .then((res) => {
-        dispatch({
-          type: 'SELLING_BASE_SUCCESS',
-          payload: res.data
-        })
+    .then((res) => {
+      dispatch({
+        type: 'SELLING_BASE_SUCCESS',
+        payload: res.data
       })
-      .catch((error) => {
-        dispatch({
-          type: 'SELLING_BASE_ERROR',
-          payload: error
-        })
+    })
+    .catch((error) => {
+      dispatch({
+        type: 'SELLING_BASE_ERROR',
+        payload: error
       })
+    })
   }
 }
 
-export const resetBase = () => {
+export const resetBase = (coin) => {
   return dispatch => {
-    dispatch({type: 'DEACTIVATED_BASE'})
+    Axios.patch(DB + coin + '.json', {
+      amount: 0,
+      isActive: false,
+      status: 'empty',
+    })
+    .then((res) => {
+      dispatch({
+        type: 'DEACTIVATED_BASE_SUCCESS',
+        payload: res.data
+      })
+    })
+    .catch((error) => {
+      dispatch({
+        type: 'DEACTIVATED_BASE_ERROR',
+        payload: error
+      })
+    })
   }
 }
 

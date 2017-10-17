@@ -102,10 +102,10 @@ class Homepage extends React.Component {
       1000
     );
 
-    // this.timerNotif = setInterval(
-    //   () => this._checkBase(),
-    //   6000
-    // );
+    this.timerNotif = setInterval(
+      () => this._checkBase(),
+      6000
+    );
 
     this._fetchDb();
 
@@ -120,14 +120,13 @@ class Homepage extends React.Component {
       this.timerWaves,
       this.timerRipple,
       this.timerZonk,
-      this.checkDB
-      //this.timerNotif
+      this.checkDB,
+      this.timerNotif
     );
   }
 
   _checkDB() {
-    if(this.props.dbNotif) {
-      console.log('interval');
+    if(this.props.dbNotif || this.props.resetBase) {
       this._fetchDb();
     }
   }
@@ -142,81 +141,90 @@ class Homepage extends React.Component {
   }
 
   _checkBase() {
-    if(this.props.isBaseActive === true) {
-      if(this.props.coin === 'bitcoin') {
-        if(this.props.status === 'buy') {
-          if(this.props.bitcoinData.last < this.props.amount) {
-            console.log('time to buy');
-            this._sendBuySMS(this.props.coin, this.props.amount, this.props.bitcoinData.last);
-          }
-        } else if(this.props.status === 'sell') {
-          if(this.props.bitcoinData.last > this.props.amount) {
-            console.log('time to sell');
-            this._sendSellSMS(this.props.coin, this.props.amount, this.props.bitcoinData.last);
-          }
-        }
-      } else if(this.props.coin === 'eth') {
-        if(this.props.status === 'buy') {
-          if(this.props.etherumData.last < this.props.amount) {
-            console.log('time to buy');
-            this._sendBuySMS(this.props.coin, this.props.amount, this.props.etherumData.last);
-          }
-        } else if(this.props.status === 'sell') {
-          if(this.props.etherumData.last > this.props.amount) {
-            console.log('time to sell');
-            this._sendSellSMS(this.props.coin, this.props.amount, this.props.etherumData.last);
-          }
-        }
-      } else if(this.props.coin === 'ltc') {
-        if(this.props.status === 'buy') {
-          if(this.props.litecoinData.last < this.props.amount) {
-            console.log('time to buy');
-            this._sendBuySMS(this.props.coin, this.props.amount, this.props.litecoinData.last);
-          }
-        } else if(this.props.status === 'sell') {
-          if(this.props.litecoinData.last > this.props.amount) {
-            console.log('time to sell');
-            this._sendSellSMS(this.props.coin, this.props.amount, this.props.litecoinData.last);
-          }
-        }
-      } else if(this.props.coin === 'waves') {
-        if(this.props.status === 'buy') {
-          if(this.props.wavesData.last < this.props.amount) {
-            console.log('time to buy');
-            this._sendBuySMS(this.props.coin, this.props.amount, this.props.wavesData.last);
-          }
-        } else if(this.props.status === 'sell') {
-          if(this.props.wavesData.last > this.props.amount) {
-            console.log('time to sell');
-            this._sendSellSMS(this.props.coin, this.props.amount, this.props.wavesData.last);
-          }
-        }
-      } else if(this.props.coin === 'xrp') {
-        if(this.props.status === 'buy') {
-          if(this.props.rippleData.last < this.props.amount) {
-            console.log('time to buy');
-            this._sendBuySMS(this.props.coin, this.props.amount, this.props.rippleData.last);
-          }
-        } else if(this.props.status === 'sell') {
-          if(this.props.rippleData.last > this.props.amount) {
-            console.log('time to sell');
-            this._sendSellSMS(this.props.coin, this.props.amount, this.props.rippleData.last);
-          }
-        }
-      } else if(this.props.coin === 'xzc') {
-        if(this.props.status === 'buy') {
-          if(this.props.zonkData.last < this.props.amount) {
-            console.log('time to buy');
-            this._sendBuySMS(this.props.coin, this.props.amount, this.props.zonkData.last);
-          }
-        } else if(this.props.status === 'sell') {
-          if(this.props.zonkData.last > this.props.amount) {
-            console.log('time to sell');
-            this._sendSellSMS(this.props.coin, this.props.amount, this.props.zonkData.last);
-          }
+    if(this.props.bitcoinDB.isActive) {
+      if(this.props.bitcoinDB.status === 'buy') {
+        if(this.props.bitcoinData.last < this.props.bitcoinDB.amount) {
+          console.log('time to buy bitcoin');
+          this._sendBuySMS('bitcoin', this.props.bitcoinDB.amount, this.props.bitcoinData.last);
         }
       }
     }
+
+    // if(this.props.isBaseActive === true) {
+    //   if(this.props.coin === 'bitcoin') {
+    //     if(this.props.status === 'buy') {
+    //       if(this.props.bitcoinData.last < this.props.amount) {
+    //         console.log('time to buy');
+    //         this._sendBuySMS(this.props.coin, this.props.amount, this.props.bitcoinData.last);
+    //       }
+    //     } else if(this.props.status === 'sell') {
+    //       if(this.props.bitcoinData.last > this.props.amount) {
+    //         console.log('time to sell');
+    //         this._sendSellSMS(this.props.coin, this.props.amount, this.props.bitcoinData.last);
+    //       }
+    //     }
+    //   } else if(this.props.coin === 'eth') {
+    //     if(this.props.status === 'buy') {
+    //       if(this.props.etherumData.last < this.props.amount) {
+    //         console.log('time to buy');
+    //         this._sendBuySMS(this.props.coin, this.props.amount, this.props.etherumData.last);
+    //       }
+    //     } else if(this.props.status === 'sell') {
+    //       if(this.props.etherumData.last > this.props.amount) {
+    //         console.log('time to sell');
+    //         this._sendSellSMS(this.props.coin, this.props.amount, this.props.etherumData.last);
+    //       }
+    //     }
+    //   } else if(this.props.coin === 'ltc') {
+    //     if(this.props.status === 'buy') {
+    //       if(this.props.litecoinData.last < this.props.amount) {
+    //         console.log('time to buy');
+    //         this._sendBuySMS(this.props.coin, this.props.amount, this.props.litecoinData.last);
+    //       }
+    //     } else if(this.props.status === 'sell') {
+    //       if(this.props.litecoinData.last > this.props.amount) {
+    //         console.log('time to sell');
+    //         this._sendSellSMS(this.props.coin, this.props.amount, this.props.litecoinData.last);
+    //       }
+    //     }
+    //   } else if(this.props.coin === 'waves') {
+    //     if(this.props.status === 'buy') {
+    //       if(this.props.wavesData.last < this.props.amount) {
+    //         console.log('time to buy');
+    //         this._sendBuySMS(this.props.coin, this.props.amount, this.props.wavesData.last);
+    //       }
+    //     } else if(this.props.status === 'sell') {
+    //       if(this.props.wavesData.last > this.props.amount) {
+    //         console.log('time to sell');
+    //         this._sendSellSMS(this.props.coin, this.props.amount, this.props.wavesData.last);
+    //       }
+    //     }
+    //   } else if(this.props.coin === 'xrp') {
+    //     if(this.props.status === 'buy') {
+    //       if(this.props.rippleData.last < this.props.amount) {
+    //         console.log('time to buy');
+    //         this._sendBuySMS(this.props.coin, this.props.amount, this.props.rippleData.last);
+    //       }
+    //     } else if(this.props.status === 'sell') {
+    //       if(this.props.rippleData.last > this.props.amount) {
+    //         console.log('time to sell');
+    //         this._sendSellSMS(this.props.coin, this.props.amount, this.props.rippleData.last);
+    //       }
+    //     }
+    //   } else if(this.props.coin === 'xzc') {
+    //     if(this.props.status === 'buy') {
+    //       if(this.props.zonkData.last < this.props.amount) {
+    //         console.log('time to buy');
+    //         this._sendBuySMS(this.props.coin, this.props.amount, this.props.zonkData.last);
+    //       }
+    //     } else if(this.props.status === 'sell') {
+    //       if(this.props.zonkData.last > this.props.amount) {
+    //         console.log('time to sell');
+    //         this._sendSellSMS(this.props.coin, this.props.amount, this.props.zonkData.last);
+    //       }
+    //     }
+    //   }
+    // }
   }
 
   _sendBuySMS(coin, amount, last) {
@@ -226,7 +234,7 @@ class Homepage extends React.Component {
       console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
       console.log('body:', body); // Print the HTML for the Google homepage.
       if(response && response.statusCode === 202) {
-        self.props.reset();
+        self.props.reset(coin);
       }
     });
   }
@@ -269,6 +277,7 @@ class Homepage extends React.Component {
               wavesDB = {this.props.wavesDB}
               zonkDB = {this.props.zonkDB}
               fetching = {this.props.dbStatus}
+              resetBase = {(coin) => this.props.reset(coin)}
             />
           </Col>
           <Col span={15}>
@@ -318,7 +327,8 @@ const mapStateToProps = (state) => {
     wavesDB: state.base.waves,
     zonkDB: state.base.zonk,
     dbStatus: state.base.fetching,
-    dbNotif: state.base.notif
+    dbNotif: state.base.notif,
+    resetBase: state.base.resetBase
   }
 }
 
@@ -337,7 +347,7 @@ const mapDispatchToProps = (dispatch) => {
     getWavesDB: () => dispatch(fetchWavesBase()),
     getRippleDB: () => dispatch(fetchRippleBase()),
     getZonkDB: () => dispatch(fetchZonkBase()),
-    reset: () => dispatch(resetBase()),
+    reset: (coin) => dispatch(resetBase(coin)),
   }
 }
 

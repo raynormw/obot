@@ -1,7 +1,8 @@
 import React from 'react';
 import {
   Row,
-  Col
+  Col,
+  Button
 } from 'antd';
 
 const styles = {
@@ -12,11 +13,12 @@ const styles = {
     fontSize: '0.75em'
   },
   baseInfo: {
-    marginBottom: '1em'
+    marginBottom: '2em'
   },
   ul: {
     listStyleType: 'circle',
-    marginLeft: '2em'
+    marginLeft: '2em',
+    marginBottom: '1em'
   }
 }
 
@@ -47,6 +49,7 @@ export const BaseStatus = (props) => {
               <li>Amount: {props.bitcoinDB.amount}</li>
               <li>Buy/Sell: {props.bitcoinDB.status}</li>
             </ul>
+            <Button type="danger" onClick={() => props.resetBase('bitcoin')}>Reset</Button>
           </Col>
           <Col span={12}>
             <p>
@@ -57,6 +60,7 @@ export const BaseStatus = (props) => {
               <li>Amount: {props.etherumDB.amount}</li>
               <li>Buy/Sell: {props.etherumDB.status}</li>
             </ul>
+            <Button type="danger" onClick={() => props.resetBase('etherum')}>Reset</Button>
           </Col>
         </Row>
         <Row style={styles.baseInfo}>
@@ -69,6 +73,7 @@ export const BaseStatus = (props) => {
               <li>Amount: {props.litecoinDB.amount}</li>
               <li>Buy/Sell: {props.litecoinDB.status}</li>
             </ul>
+            <Button type="danger" onClick={() => props.resetBase('litecoin')}>Reset</Button>
           </Col>
           <Col span={12}>
             <p>
@@ -79,6 +84,7 @@ export const BaseStatus = (props) => {
               <li>Amount: {props.wavesDB.amount}</li>
               <li>Buy/Sell: {props.wavesDB.status}</li>
             </ul>
+            <Button type="danger" onClick={() => props.resetBase('waves')}>Reset</Button>
           </Col>
         </Row>
         <Row style={styles.baseInfo}>
@@ -91,6 +97,7 @@ export const BaseStatus = (props) => {
               <li>Amount: {props.rippleDB.amount}</li>
               <li>Buy/Sell: {props.rippleDB.status}</li>
             </ul>
+            <Button type="danger" onClick={() => props.resetBase('ripple')}>Reset</Button>
           </Col>
           <Col span={12}>
             <p>
@@ -101,6 +108,7 @@ export const BaseStatus = (props) => {
               <li>Amount: {props.zonkDB.amount}</li>
               <li>Buy/Sell: {props.zonkDB.status}</li>
             </ul>
+            <Button type="danger" onClick={() => props.resetBase('zonk')}>Reset</Button>
           </Col>
         </Row>
       </div>

@@ -1,6 +1,7 @@
 const initialState = {
   notif: false,
   fetching: false,
+  resetBase: false,
   tes: {
     isActive: false
   },
@@ -48,18 +49,22 @@ export default function baseReducer(state = initialState, action) {
       return {...state, fetching: false, notif: 'success'}
     case 'SELLING_BASE_ERROR':
       return {...state, fetching: false, notif: 'failed'}
+    case 'DEACTIVATED_BASE_SUCCESS':
+      return {...state, resetBase: 'success'}
+    case 'DEACTIVATED_BASE_ERROR':
+      return {...state, resetBase: 'failed'}
     case 'FETCH_BITCOIN_BASE':
-      return {...state, bitcoin: action.payload, fetching: false, notif: false}
+      return {...state, bitcoin: action.payload, fetching: false, notif: false, resetBase: false}
     case 'FETCH_ETHERUM_BASE':
-      return {...state, etherum: action.payload, fetching: false, notif: false}
+      return {...state, etherum: action.payload, fetching: false, notif: false, resetBase: false}
     case 'FETCH_LITECOIN_BASE':
-      return {...state, litecoin: action.payload, fetching: false, notif: false}
+      return {...state, litecoin: action.payload, fetching: false, notif: false, resetBase: false}
     case 'FETCH_RIPPLE_BASE':
-      return {...state, ripple: action.payload, fetching: false, notif: false}
+      return {...state, ripple: action.payload, fetching: false, notif: false, resetBase: false}
     case 'FETCH_WAVES_BASE':
-      return {...state, waves: action.payload, fetching: false, notif: false}
+      return {...state, waves: action.payload, fetching: false, notif: false, resetBase: false}
     case 'FETCH_ZONK_BASE':
-      return {...state, zonk: action.payload, fetching: false, notif: false}
+      return {...state, zonk: action.payload, fetching: false, notif: false, resetBase: false}
     default:
       return state
   }

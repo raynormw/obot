@@ -38,16 +38,16 @@ class FormBase extends React.Component {
     modalsell: false
   }
 
-  _onChangeRadio = (e) => {
-    console.log('radio checked', e.target.value);
+  _closeBuyModal = () => {
+    this.setState({
+      modalbuy: false
+    });
   }
 
-  _handleChangeSelect(value) {
-    console.log('coin changed', value);
-  }
-
-  _onchangeAmount(value) {
-    console.log('amount changed', value);
+  _closeSellModal = () => {
+    this.setState({
+      modalsell: false
+    });
   }
 
   _handleSubmit = (e) => {
@@ -101,7 +101,7 @@ class FormBase extends React.Component {
         },
       },
     };
-    
+
     return (
       <Form onSubmit={this._handleSubmit}>
         <FormItem
@@ -115,7 +115,7 @@ class FormBase extends React.Component {
               required: true, message: 'Please select your Coin!',
             }],
           })(
-            <Select style={styles.dropdownContainer} onChange={this._handleChangeSelect}>
+            <Select style={styles.dropdownContainer}>
               <Option value="bitcoin">Bitcoin/IDR</Option>
               <Option value="etherum">ETH/IDR</Option>
               <Option value="litecoin">LTC/IDR</Option>
@@ -137,7 +137,6 @@ class FormBase extends React.Component {
               min={1}
               formatter={value => `Rp. ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               parser={value => value.replace(/Rp.\s?|(,*)/g, '')}
-              onChange={this._onchangeAmount}
             />
           )}
         </FormItem>
@@ -149,7 +148,7 @@ class FormBase extends React.Component {
             initialValue: 'buy',
             rules: [{ required: true, message: 'Please choice between buy or sell!' }],
           })(
-            <RadioGroup onChange={this._onChangeRadio}>
+            <RadioGroup>
               <Radio value='buy'>Buy</Radio>
               <Radio value='sell'>Sell</Radio>
             </RadioGroup>
@@ -167,10 +166,10 @@ class FormBase extends React.Component {
           </Row>
         </FormItem>
         {this.state.modalbuy &&
-          <Alert message="Base for buy success!" type="success" closable style={styles.modal}/>
+          <Alert message="Base for buy success!" type="success" closable onClose={this._closeBuyModal} style={styles.modal}/>
         }
         {this.state.modalsell &&
-          <Alert message="Base for sell success!" type="info" closable style={styles.modal}/>
+          <Alert message="Base for sell success!" type="error" closable onClose={this._closeSellModal} style={styles.modal}/>
         }
       </Form>
     );
